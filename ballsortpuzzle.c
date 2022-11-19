@@ -94,3 +94,22 @@ void game_field(const int rows, const int columns, char field[rows][columns]){
     printf("\n");
 }
 
+bool check(const int rows, const int columns, char field[rows][columns]){
+    //vymena riadkov za stlpce
+    char otocene[columns][rows];
+    for (int i = 0; i < columns; ++i) {
+        for (int j = 0; j < rows; ++j) {
+            otocene[i][j] = field[j][i];
+        }
+    }
+
+    if(rows * rows == rows){
+        printf("true\n");
+        return true;
+    }
+    else{
+        printf("false\n");
+        return false;
+    }
+}
+
