@@ -103,12 +103,20 @@ bool check(const int rows, const int columns, char field[rows][columns]){
         }
     }
 
-    if(rows * rows == rows){
-        printf("true\n");
+    //zistovanie rovnosti znakov v stlpci
+    int pocitadlo = 0;
+    for (int i = 0; i < columns; ++i) {
+        for (int j = 0; j < rows; ++j) {
+            if(otocene[i][j] == otocene[j][i]){
+                pocitadlo++;
+            }
+        }
+    }
+
+    if(pocitadlo == rows * columns){
         return true;
     }
     else{
-        printf("false\n");
         return false;
     }
 }
