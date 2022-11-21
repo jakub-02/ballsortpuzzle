@@ -52,11 +52,16 @@ void generator(const int rows, const int columns, char field[rows][columns]) {
 
     //naplnenie pola
     int pocitadlo = 0;
-    for (int i = 0; i < rows; ++i) {
+    for (int i = rows; i >= 0; i--) {
         for (int j = 0; j < columns; ++j) {
             if(j != stlpecA && j != stlpecB){
-                field[i][j] = poleZnakov[pocitadlo];
-                pocitadlo++;
+                if(pocitadlo >= sizeof(poleZnakov)){
+                    field[i][j] = ' ';
+                }
+                else{
+                    field[i][j] = poleZnakov[pocitadlo];
+                    pocitadlo++;
+                }
             }
         }
     }
@@ -95,19 +100,18 @@ void game_field(const int rows, const int columns, char field[rows][columns]){
 }
 
 bool check(const int rows, const int columns, char field[rows][columns]){
-    //vymena riadkov za stlpce
-    char otocene[columns][rows];
+    //testovacie pole nacita prvky z prveho riadku
+    char test[columns];
     for (int i = 0; i < columns; ++i) {
-        for (int j = 0; j < rows; ++j) {
-            otocene[i][j] = field[j][i];
-        }
+        test[i] = field[0][i];
     }
+    test[columns] = '\0';
 
     //zistovanie rovnosti znakov v stlpci
     int pocitadlo = 0;
-    for (int i = 0; i < columns; ++i) {
-        for (int j = 0; j < rows; ++j) {
-            if(otocene[i][j] == otocene[j][i]){
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < columns; ++j) {
+            if(field[i][j] == test[j]){
                 pocitadlo++;
             }
         }
@@ -120,4 +124,14 @@ bool check(const int rows, const int columns, char field[rows][columns]){
         return false;
     }
 }
+/*
+void down_possible(const int rows, const int columns, char field[rows][columns], int x, int y){
+    //prekonvertovanie na frontend
+    x = x - 1;
+    y = y - 1;
 
+    //premiestnenie
+    field[x][y] = field[0][x];
+    field[0][x] = ' ';
+
+}*/
