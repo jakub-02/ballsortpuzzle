@@ -3,13 +3,16 @@
 #include "ballsortpuzzle.h"
 
 int main() {
-    int rows = 7;
-    int columns = 5;
+    /*
+    int rows = 5;
+    int columns = 8;
     char field[rows][columns];
 
     generator(rows, columns, field);
     game_field(rows, columns, field);
-    check(rows, columns, field);
+    check(rows, columns, field);*/
+
+    ball_sort_puzzle();
 
     /*
     int x;
