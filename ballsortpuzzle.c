@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <string.h>
 #include "ballsortpuzzle.h"
 
 void generator(const int rows, const int columns, char field[rows][columns]) {
@@ -44,7 +43,13 @@ void generator(const int rows, const int columns, char field[rows][columns]) {
         }
     }
 
-    if(columns == 3 || columns == 4){
+    if(columns == 3){
+        for (int i = 0; i < velkost; ++i) {
+            poleZnakov[i] = '+';
+        }
+    }
+
+    if(columns == 4){
         for (int i = 0; i < velkost; ++i) {
             if (i < velkost/2) {
                 poleZnakov[i] = '+';
@@ -176,15 +181,25 @@ void down_possible(const int rows, const int columns, char field[rows][columns],
             break;
         }
     }
-     //kontrola ci stlpec nie je prazdny
-    if(vyska == rows && znak == ' '){
-        printf("Column is empty.\n");
+
+    //kontrola ci necheme ist na rovnaky stlpec
+    if(x == y){
+        field[zalozna][x] = znak;
+        printf("Cannot move to the same column.\n");
+        game_field(rows, columns, field);
+    }
+
+    //kontrola ci stlpec nie je prazdny
+    else if(vyska == rows && znak == ' '){
+        printf("Cannot move, column is empty.\n");
+        game_field(rows, columns, field);
     }
 
     //kontrola ci stlpec nie je plny
     else if(field[0][y] != ' '){
         field[zalozna][x] = znak;
-        printf("Column is full.\n");
+        printf("Cannot move, column is full.\n");
+        game_field(rows, columns, field);
     }
 
     else{
@@ -202,31 +217,34 @@ void down_possible(const int rows, const int columns, char field[rows][columns],
         //spodok stlpca je prazdny
         if(vyska == rows - 1 && field[vyska][y] == ' '){
             field[vyska][y] = znak;
+            game_field(rows, columns, field);
         }
 
         //presun znaku na spravne miesto
         else if(field[vyska][y] == znak){
             field[vyska - 1][y] = znak;
+            game_field(rows, columns, field);
         }
 
         //kontrola nespravneho presunu
         else if(field[vyska][y] != znak){
             field[zalozna][x] = znak;
             printf("Cannot move here.\n");
+            game_field(rows, columns, field);
         }
     }
 }
 
 void ball_sort_puzzle(){
-    int rows = 7;
-    int columns = 5;
+    int rows = 6;
+    int columns = 6;
     char field[rows][columns];
     int x;
     int y;
     generator(rows, columns, field);
+    game_field(rows, columns, field);
 
     while(check(rows, columns, field) == false){
-        game_field(rows, columns, field);
         printf("Enter what: \n");
         scanf("%d", &x);
         printf("Enter where: \n");
