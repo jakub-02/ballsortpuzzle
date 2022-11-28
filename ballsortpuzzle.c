@@ -115,7 +115,33 @@ void game_field(const int rows, const int columns, char field[rows][columns]){
     for (int i = 0; i < rows; ++i) {
         printf("[%d] |", i+1);
         for (int j = 0; j < columns; ++j) {
-            printf(" %c |", field[i][j]);
+            if(field[i][j] == '+') {
+                printf("\033[0;31m");
+                printf(" %c", field[i][j]);
+                printf("\033[0m");
+                printf(" |");
+            }
+            else if(field[i][j] == '*') {
+                printf("\033[0;32m");
+                printf(" %c", field[i][j]);
+                printf("\033[0m");
+                printf(" |");
+            }
+            else if(field[i][j] == '^') {
+                printf("\033[0;33m");
+                printf(" %c", field[i][j]);
+                printf("\033[0m");
+                printf(" |");
+            }
+            else if(field[i][j] == '@') {
+                printf("\033[0;34m");
+                printf(" %c", field[i][j]);
+                printf("\033[0m");
+                printf(" |");
+            }
+            else{
+                printf(" %c |", field[i][j]);
+            }
         }
         printf("\n");
     }
@@ -238,8 +264,14 @@ void down_possible(const int rows, const int columns, char field[rows][columns],
 }
 
 void ball_sort_puzzle(){
-    int rows = 6;
-    int columns = 8;
+    int rows;
+    int columns;
+
+    printf("Enter number of rows: \n");
+    scanf("%d", &rows);
+    printf("Enter number of columns: \n");
+    scanf("%d", &columns);
+
     char field[rows][columns];
     int x;
     int y;
