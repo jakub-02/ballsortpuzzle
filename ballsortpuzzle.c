@@ -84,12 +84,14 @@ void generator(const int rows, const int columns, char field[rows][columns]) {
         poleZnakov[swapIndex] = temp;
     }
 
+    poleZnakov[velkost] = '\0';
+
     //naplnenie pola
     int pocitadlo = 0;
     for (int i = rows-1; i >= 0; i--) {
         for (int j = 0; j < columns; ++j) {
             if(j != stlpecA && j != stlpecB){
-                if(pocitadlo >= velkost){
+                if(pocitadlo == velkost){
                     field[i][j] = ' ';
                 }
                 else{
@@ -189,13 +191,13 @@ void down_possible(const int rows, const int columns, char field[rows][columns],
         game_field(rows, columns, field);
     }
 
-    //kontrola ci stlpec nie je prazdny
+        //kontrola ci stlpec nie je prazdny
     else if(vyska == rows && znak == ' '){
         printf("Cannot move, column is empty.\n");
         game_field(rows, columns, field);
     }
 
-    //kontrola ci stlpec nie je plny
+        //kontrola ci stlpec nie je plny
     else if(field[0][y] != ' '){
         field[zalozna][x] = znak;
         printf("Cannot move, column is full.\n");
@@ -229,7 +231,7 @@ void down_possible(const int rows, const int columns, char field[rows][columns],
         //kontrola nespravneho presunu
         else if(field[vyska][y] != znak){
             field[zalozna][x] = znak;
-            printf("Cannot move here.\n");
+            printf("Cannot move to column with different character.\n");
             game_field(rows, columns, field);
         }
     }
@@ -237,7 +239,7 @@ void down_possible(const int rows, const int columns, char field[rows][columns],
 
 void ball_sort_puzzle(){
     int rows = 6;
-    int columns = 6;
+    int columns = 8;
     char field[rows][columns];
     int x;
     int y;
@@ -249,6 +251,24 @@ void ball_sort_puzzle(){
         scanf("%d", &x);
         printf("Enter where: \n");
         scanf("%d", &y);
+
+        //kontrola spravneho vstupu
+        if(x > columns || x < 0){
+            printf("You must enter correct column number.\n");
+            printf("Enter what: \n");
+            scanf("%d", &x);
+            printf("Enter where: \n");
+            scanf("%d", &y);
+        }
+
+        if(y > columns || y < 0){
+            printf("You must enter correct column number.\n");
+            printf("Enter what: \n");
+            scanf("%d", &x);
+            printf("Enter where: \n");
+            scanf("%d", &y);
+        }
+
         down_possible(rows, columns, field, x, y);
     }
 }
